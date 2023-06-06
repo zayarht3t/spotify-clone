@@ -4,6 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import {HiHome,HiSearch} from 'react-icons/hi'
 import  {RxChevronLeft,RxChevronRight} from 'react-icons/rx'
 import { useRouter } from 'next/navigation';
+import Button from './Button';
 
 type HeaderProps = {
     children: React.ReactNode,
@@ -31,7 +32,22 @@ const Header:React.FC<HeaderProps> = ({children,className}) => {
                     <HiSearch size={25} className='text-black'/>
                 </button>
             </div>
+            <div className='flex items-center gap-2'>
+                <div>
+                <Button className='text-white  '>
+                    Sign up
+                </Button>
+
+                </div>
+                <div>
+                <Button className='text-black bg-white'>
+                    Login
+                </Button>                
+                </div>                
+            </div>
+
         </div>
+        {children}
     </div>)
 }
 export default Header;
