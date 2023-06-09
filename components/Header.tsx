@@ -5,6 +5,11 @@ import {HiHome,HiSearch} from 'react-icons/hi'
 import  {RxChevronLeft,RxChevronRight} from 'react-icons/rx'
 import { useRouter } from 'next/navigation';
 import Button from './Button';
+import useAuthModal from '@/hooks/useAuthModal';
+import { useUser } from '@/hooks/useUser';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import {FaUserAlt} from 'react-icons/fa'
+
 
 type HeaderProps = {
     children: React.ReactNode,
@@ -13,6 +18,19 @@ type HeaderProps = {
 
 const Header:React.FC<HeaderProps> = ({children,className}) => {
     const router = useRouter();
+    const AuthModal = useAuthModal();
+    const {user} = useUser();
+    const SupabaseClient = useSupabaseClient();
+
+
+    const handleLogout =async ()=>{
+        const {error} = await SupabaseClient.auth.signOut();
+
+        router.refresh();
+        if(error) {
+            console.log(error);
+        }
+    }
     return (
     <div className={twMerge(`h-fit bg-gradient-to-b from-emerald-800 p-6`,className)}>
         <div className='w-full flex items-center justify-between mb-4'>
@@ -32,19 +50,48 @@ const Header:React.FC<HeaderProps> = ({children,className}) => {
                     <HiSearch size={25} className='text-black'/>
                 </button>
             </div>
-            <div className='flex items-center gap-2'>
-                <div>
-                <Button className='text-white  '>
-                    Sign up
-                </Button>
+            {
+                user && (
+                    <div className='flex items-center space-x-4'>
+                        <Button
+                         className='
+                         bg-white
+                         text-black
+                         px-6
+                         py-2
+                         '
+                         onClick={handleLogout}
+                        >
+                            Logout
+                        </Button>
+                        <Button
+                         className='
+                          bg-white
+                         '
+                         onClick={()=>router.push("/account")}
+                        >
+                            <FaUserAlt/>
+                        </Button>
+                    </div>
+                )
+            }
+            {
+                !user && (
+                    <div className='flex items-center gap-2'>
+                        <div>
+                            <Button className='text-white' onClick={AuthModal.onOpen}>
+                                Sign up
+                            </Button>
 
+                    </div>
+                    <div>
+                        <Button className='text-black bg-white' onClick={AuthModal.onOpen}>
+                            Login
+                        </Button>                
+                    </div>                
                 </div>
-                <div>
-                <Button className='text-black bg-white'>
-                    Login
-                </Button>                
-                </div>                
-            </div>
+                )
+            }
 
         </div>
         {children}
