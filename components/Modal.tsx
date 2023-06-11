@@ -26,6 +26,7 @@ const Modal:React.FC<ModalProps> = ({isOpen,onChange,title,description,children}
               bg-neutral-900/90
               fixed
               backdrop-blur-sm
+              transition
 
              '
             >
