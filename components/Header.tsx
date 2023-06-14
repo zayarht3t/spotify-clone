@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import Button from './Button';
 import useAuthModal from '@/hooks/useAuthModal';
 import { useUser } from '@/hooks/useUser';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import {FaUserAlt} from 'react-icons/fa'
 import { toast } from 'react-hot-toast';
 
@@ -22,6 +22,8 @@ const Header:React.FC<HeaderProps> = ({children,className}) => {
     const AuthModal = useAuthModal();
     const {user} = useUser();
     const SupabaseClient = useSupabaseClient();
+    const session = useSession();
+
 
 
     const handleLogout =async ()=>{
@@ -54,7 +56,7 @@ const Header:React.FC<HeaderProps> = ({children,className}) => {
                 </button>
             </div>
             {
-                user && (
+                session?.user.id && (
                     <div className='flex items-center space-x-4'>
                         <Button
                          className='
@@ -80,7 +82,7 @@ const Header:React.FC<HeaderProps> = ({children,className}) => {
                 )
             }
             {
-                !user && (
+                !session?.user.id && (
                     <div className='flex items-center gap-2'>
                         <div>
                             <Button className='text-white' onClick={AuthModal.onOpen}>

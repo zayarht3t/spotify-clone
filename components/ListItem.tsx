@@ -1,6 +1,8 @@
+"use client"
 import React from 'react';
 import Image from 'next/image';
 import {FaPlay} from 'react-icons/fa'
+import { useRouter } from 'next/navigation';
 
 type ListItemProps = {
     image: string,
@@ -9,9 +11,10 @@ type ListItemProps = {
 };
 
 const ListItem:React.FC<ListItemProps> = ({image,href,name}) => {
+    const router = useRouter();
     
     return (
-        <button className=' relative group gap-3 space-x-4 flex items-center bg-neutral-100/10 hover:bg-neutral-100/20 transition pr-4'>
+        <button onClick={()=>router.push('/like')} className=' relative group gap-3 space-x-4 flex items-center bg-neutral-100/10 hover:bg-neutral-100/20 transition pr-4'>
             <div className='relative min-h-[64px] min-w-[64px]'>
                 <Image
                 className=' object-cover'

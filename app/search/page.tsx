@@ -1,3 +1,4 @@
+"use client"
 import getSongsByTitle from '@/actions/getSongsByTitle';
 import Header from '@/components/Header';
 import SearchInput from '@/components/SearchInput';

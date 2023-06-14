@@ -1,3 +1,4 @@
+"use client"
 import getSongs from '@/actions/getSongs';
 import Header from '@/components/Header'
 import ListItem from '@/components/ListItem'
